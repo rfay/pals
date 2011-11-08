@@ -1,0 +1,57 @@
+[submodule "sites/all/modules/views"]
+	path = sites/all/modules/views
+	url = git://git.drupal.org/project/views.git
+[submodule "sites/all/modules/ctools"]
+	path = sites/all/modules/ctools
+	url = git://git.drupal.org/project/ctools.git
+[submodule "sites/all/modules/commerce"]
+	path = sites/all/modules/commerce
+	url = git://git.drupal.org/project/commerce.git
+[submodule "sites/all/modules/views_bulk_operations"]
+	path = sites/all/modules/views_bulk_operations
+	url = git://git.drupal.org/project/views_bulk_operations.git
+[submodule "sites/all/modules/rules"]
+	path = sites/all/modules/rules
+	url = git://git.drupal.org/project/rules.git
+[submodule "sites/all/modules/entity"]
+	path = sites/all/modules/entity
+	url = git://git.drupal.org/project/entity.git
+[submodule "profiles/commerce_kickstart"]
+	path = profiles/commerce_kickstart
+	url = git://git.drupal.org/project/commerce_kickstart.git
+[submodule "sites/all/modules/addressfield"]
+	path = sites/all/modules/addressfield
+	url = git://git.drupal.org/project/addressfield.git
+[submodule "sites/all/themes/corolla"]
+	path = sites/all/themes/corolla
+	url = git://git.drupal.org/project/corolla.git
+[submodule "sites/all/themes/omega"]
+	path = sites/all/themes/omega
+	url = git://git.drupal.org/project/omega.git
+[submodule "sites/all/modules/admin_vbo_views"]
+	path = sites/all/modules/admin_vbo_views
+	url = git://git.drupal.org/project/admin_vbo_views.git
+[submodule "sites/all/modules/commerce_paypal"]
+	path = sites/all/modules/commerce_paypal
+	url = git://git.drupal.org/project/commerce_paypal.git
+[submodule "sites/all/modules/admin_menu"]
+	path = sites/all/modules/admin_menu
+	url = git://git.drupal.org/project/admin_menu.git
+[submodule "sites/all/modules/module_filter"]
+	path = sites/all/modules/module_filter
+	url = git://git.drupal.org/project/module_filter.git
+[submodule "sites/all/modules/realname"]
+	path = sites/all/modules/realname
+	url = git://git.drupal.org/project/realname.git
+[submodule "sites/all/modules/token"]
+	path = sites/all/modules/token
+	url = git://git.drupal.org/project/token.git
+[submodule "sites/all/modules/date"]
+	path = sites/all/modules/date
+	url = git://git.drupal.org/project/date.git
+[submodule "sites/all/modules/calendar"]
+	path = sites/all/modules/calendar
+	url = git://git.drupal.org/project/calendar.git
+[submodule "sites/all/modules/references"]
+	path = sites/all/modules/references
+	url = git://git.drupal.org/project/references.git

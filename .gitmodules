@@ -55,6 +55,12 @@
 [submodule "sites/all/modules/references"]
 	path = sites/all/modules/references
 	url = git://git.drupal.org/project/references.git
+[submodule "sites/all/modules/wysiwyg"]
+	path = sites/all/modules/wysiwyg
+	url = git://git.drupal.org/project/wysiwyg.git
+[submodule "sites/all/modules/libraries"]
+	path = sites/all/modules/libraries
+	url = git://git.drupal.org/project/libraries.git
 [submodule "sites/all/modules/commerce_vbo_views"]
 	path = sites/all/modules/commerce_vbo_views
 	url = git://git.drupal.org/project/commerce_vbo_views.git

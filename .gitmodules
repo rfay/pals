@@ -72,4 +72,4 @@
 	url = git://git.drupal.org/project/respond.git
 [submodule "sites/all/libraries/jquery.cycle"]
 	path = sites/all/libraries/jquery.cycle
-	url = https://github.com/malsup/cycle.git
+	url = http://github.com/malsup/cycle.git

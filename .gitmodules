@@ -64,3 +64,6 @@
 [submodule "sites/all/modules/commerce_vbo_views"]
 	path = sites/all/modules/commerce_vbo_views
 	url = git://git.drupal.org/project/commerce_vbo_views.git
+[submodule "sites/all/modules/views_slideshow"]
+	path = sites/all/modules/views_slideshow
+	url = git://git.drupal.org/project/views_slideshow.git

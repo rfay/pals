@@ -67,3 +67,6 @@
 [submodule "sites/all/modules/views_slideshow"]
 	path = sites/all/modules/views_slideshow
 	url = git://git.drupal.org/project/views_slideshow.git
+[submodule "sites/all/themes/respond"]
+	path = sites/all/themes/respond
+	url = git://git.drupal.org/project/respond.git

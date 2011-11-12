@@ -73,3 +73,6 @@
 [submodule "sites/all/libraries/jquery.cycle"]
 	path = sites/all/libraries/jquery.cycle
 	url = http://github.com/malsup/cycle.git
+[submodule "sites/all/modules/fontyourface"]
+	path = sites/all/modules/fontyourface
+	url = git://git.drupal.org/project/fontyourface.git

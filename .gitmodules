@@ -79,3 +79,12 @@
 [submodule "sites/all/modules/git_deploy"]
 	path = sites/all/modules/git_deploy
 	url = git://git.drupal.org/project/git_deploy.git
+[submodule "sites/all/modules/commerce_repair"]
+	path = sites/all/modules/commerce_repair
+	url = git://git.drupal.org/project/commerce_repair.git
+[submodule "sites/all/modules/logintoboggan"]
+	path = sites/all/modules/logintoboggan
+	url = git://git.drupal.org/project/logintoboggan.git
+[submodule "sites/all/modules/commerce_product_display_manager"]
+	path = sites/all/modules/commerce_product_display_manager
+	url = git://git.drupal.org/project/commerce_product_display_manager.git

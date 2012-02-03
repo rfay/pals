@@ -88,3 +88,6 @@
 [submodule "sites/all/modules/commerce_product_display_manager"]
 	path = sites/all/modules/commerce_product_display_manager
 	url = git://git.drupal.org/project/commerce_product_display_manager.git
+[submodule "sites/all/modules/commerce_custom_product"]
+	path = sites/all/modules/commerce_custom_product
+	url = git://git.drupal.org/project/commerce_custom_product.git

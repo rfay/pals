@@ -91,3 +91,6 @@
 [submodule "sites/all/modules/commerce_custom_product"]
 	path = sites/all/modules/commerce_custom_product
 	url = git://git.drupal.org/project/commerce_custom_product.git
+[submodule "sites/all/modules/commerce_cheque"]
+	path = sites/all/modules/commerce_cheque
+	url = git://git.drupal.org/project/commerce_cheque.git

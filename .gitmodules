@@ -94,3 +94,9 @@
 [submodule "sites/all/modules/commerce_cheque"]
 	path = sites/all/modules/commerce_cheque
 	url = git://git.drupal.org/project/commerce_cheque.git
+[submodule "sites/all/modules/select_or_other"]
+	path = sites/all/modules/select_or_other
+	url = git://git.drupal.org/project/select_or_other.git
+[submodule "sites/all/modules/commerce_product_bundle"]
+	path = sites/all/modules/commerce_product_bundle
+	url = git://git.drupal.org/project/commerce_product_bundle.git

@@ -100,3 +100,36 @@
 [submodule "sites/all/modules/commerce_product_bundle"]
 	path = sites/all/modules/commerce_product_bundle
 	url = git://git.drupal.org/project/commerce_product_bundle.git
+[submodule "sites/all/modules/commerce_product_attributes"]
+	path = sites/all/modules/commerce_product_attributes
+	url = git://git.drupal.org/project/commerce_product_attributes.git
+[submodule "sites/all/modules/field_group"]
+	path = sites/all/modules/field_group
+	url = git://git.drupal.org/project/field_group.git
+[submodule "sites/all/modules/field_collection"]
+	path = sites/all/modules/field_collection
+	url = git://git.drupal.org/project/field_collection.git
+[submodule "sites/all/modules/field_collection_table"]
+	path = sites/all/modules/field_collection_table
+	url = git://git.drupal.org/project/field_collection_table.git
+[submodule "sites/all/modules/css_injector"]
+	path = sites/all/modules/css_injector
+	url = git://git.drupal.org/project/css_injector.git
+[submodule "sites/all/modules/auto_nodetitle"]
+	path = sites/all/modules/auto_nodetitle
+	url = git://git.drupal.org/project/auto_nodetitle.git
+[submodule "sites/all/themes/sasson"]
+	path = sites/all/themes/sasson
+	url = git://git.drupal.org/project/sasson.git
+[submodule "sites/all/themes/ICE-BUSINESS"]
+	path = sites/all/themes/ICE-BUSINESS
+	url = git://git.drupal.org/project/ICE-BUSINESS.git
+[submodule "sites/all/modules/colorbox"]
+	path = sites/all/modules/colorbox
+	url = git://git.drupal.org/project/colorbox.git
+[submodule "sites/all/libraries/colorbox"]
+	path = sites/all/libraries/colorbox
+	url = git://github.com/jackmoore/colorbox.git
+[submodule "sites/all/themes/zen"]
+	path = sites/all/themes/zen
+	url = git://git.drupal.org/project/zen.git

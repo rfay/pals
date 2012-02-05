@@ -148,3 +148,9 @@
 [submodule "sites/all/modules/mailsystem"]
 	path = sites/all/modules/mailsystem
 	url = git://git.drupal.org/project/mailsystem.git
+[submodule "sites/all/modules/views_data_export"]
+	path = sites/all/modules/views_data_export
+	url = git://git.drupal.org/project/views_data_export.git
+[submodule "sites/all/modules/views_datasource"]
+	path = sites/all/modules/views_datasource
+	url = git://git.drupal.org/project/views_datasource.git

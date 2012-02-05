@@ -1,0 +1,30 @@
+<?php
+
+
+/**
+ * @file
+ * Site helpers for palisadeartlovers.org
+ *
+ */
+
+/**
+ * Implements hook_form_FORMID_alter().
+ *
+ * Alter the show_registration_node_form to hide the country field.
+ */
+function pals_site_form_show_registration_node_form_alter(&$form, &$form_state) {
+  $form['field_entrant_address']['und'][0]['country']['#access'] = FALSE;
+}
+
+function pals_site_form_commerce_checkout_form_checkout_alter(&$form, &$form_state) {
+  $form['account']['login']['mail']['#description'] = t('If you do not have an email account, please enter "nancy+noemail@nblewis.com"');
+}
+/**
+ * Implements hook_form_alter().
+ */
+function pals_site_form_alter(&$form, &$form_state, $form_id) {
+  switch($form_id) {
+
+  }
+}
+

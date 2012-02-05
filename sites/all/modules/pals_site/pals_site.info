@@ -1,0 +1,3 @@
+name = pals_site
+description = Site configuration add-ons for PalisadeArtLovers.org
+core = 7.x

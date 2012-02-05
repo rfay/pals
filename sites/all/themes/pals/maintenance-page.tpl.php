@@ -22,6 +22,7 @@
     <div class="art-header-wrapper">
         <div class="cleared reset-box"></div>
         <div class="art-header-inner">
+<div class="art-textblock"> </div>
 <div class="art-logo">
      <?php   if (!empty($site_name)) { echo '<h1 class="art-logo-name"><a href="'.check_url($front_page).'" title = "'.$site_name.'">'.$site_name.'</a></h1>'; } ?>
      <?php   if (!empty($site_slogan)) { echo '<h2 class="art-logo-text">'.$site_slogan.'</h2>'; } ?>

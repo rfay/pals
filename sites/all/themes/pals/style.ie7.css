@@ -92,7 +92,7 @@
    z-index:-2;
    top: 0;
    width:100%;
-   height: 260px;
+   height: 150px;
    background-image: url('images/header.png');
    background-repeat: no-repeat;
    background-position:top center;
@@ -103,6 +103,15 @@
 /* begin Menu */
 .art-nav {
    position: expression(runtimeStyle.position='relative');
+}
+.art-nav>.art-bar-l, .art-nav>.art-bar-r{
+   background-image: url('images/nav.png');
+}
+.art-nav>.art-bar-l{
+   right: 0;
+}
+.art-nav>.art-bar-r{
+   width: 0;
 }
 .art-hmenu ul li {
    float: left !important;
@@ -146,6 +155,16 @@ ul.art-hmenu>li>a>span.art-hmenu-r
    background-position: top right;
 }
 
+ul.art-hmenu>li>a.active>span.art-hmenu-l {
+   background-position: bottom left;
+} 
+ul.art-hmenu>li>a.active>span.art-hmenu-r {
+   background-position: bottom right;
+}
+ul.art-hmenu>li>a.active {
+   color: #000000;
+}
+
 ul.art-hmenu>li>a:hover>span.art-hmenu-l, ul.art-hmenu>li:hover>a>span.art-hmenu-l {
    background-position: center left;
 }
@@ -169,7 +188,7 @@ ul.art-hmenu>li>span.art-hmenu-separator
    top:0;
    left:  -1px;
    width: 1px;
-   height: 35px;
+   height: 39px;
    background: url('images/menuseparator.png') center center no-repeat;
 }
 /* end MenuSeparator */
@@ -301,10 +320,10 @@ ul.art-vmenu .art-vmenu-separator, ul.art-vmenu .art-vmenu-separator-bg
    background-image: url('images/blockheader.png');
 }
 .art-blockheader>.art-bar-l{
-   right: 22px;
+   right: 17px;
 }
 .art-blockheader>.art-bar-r{
-   width: 22px;
+   width: 17px;
 }
 
 /* end BlockHeader */

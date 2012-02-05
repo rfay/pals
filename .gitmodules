@@ -154,3 +154,6 @@
 [submodule "sites/all/modules/views_datasource"]
 	path = sites/all/modules/views_datasource
 	url = git://git.drupal.org/project/views_datasource.git
+[submodule "sites/all/modules/reroute_email"]
+	path = sites/all/modules/reroute_email
+	url = git://git.drupal.org/project/reroute_email.git

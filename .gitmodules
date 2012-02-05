@@ -133,3 +133,12 @@
 [submodule "sites/all/themes/zen"]
 	path = sites/all/themes/zen
 	url = git://git.drupal.org/project/zen.git
+[submodule "sites/all/modules/features"]
+	path = sites/all/modules/features
+	url = git://git.drupal.org/project/features.git
+[submodule "sites/all/modules/commerce_features"]
+	path = sites/all/modules/commerce_features
+	url = git://git.drupal.org/project/commerce_features.git
+[submodule "sites/all/modules/stringoverrides"]
+	path = sites/all/modules/stringoverrides
+	url = git://git.drupal.org/project/stringoverrides.git

@@ -142,3 +142,9 @@
 [submodule "sites/all/modules/stringoverrides"]
 	path = sites/all/modules/stringoverrides
 	url = git://git.drupal.org/project/stringoverrides.git
+[submodule "sites/all/modules/htmlmail"]
+	path = sites/all/modules/htmlmail
+	url = git://git.drupal.org/project/htmlmail.git
+[submodule "sites/all/modules/mailsystem"]
+	path = sites/all/modules/mailsystem
+	url = git://git.drupal.org/project/mailsystem.git

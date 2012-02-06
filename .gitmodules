@@ -157,3 +157,15 @@
 [submodule "sites/all/modules/reroute_email"]
 	path = sites/all/modules/reroute_email
 	url = git://git.drupal.org/project/reroute_email.git
+[submodule "sites/all/modules/variable"]
+	path = sites/all/modules/variable
+	url = git://git.drupal.org/project/variable.git
+[submodule "modules/variable_email"]
+	path = modules/variable_email
+	url = git://git.drupal.org/project/variable_email.git
+[submodule "sites/all/modules/variable_email"]
+	path = sites/all/modules/variable_email
+	url = git://git.drupal.org/project/variable_email.git
+[submodule "sites/all/modules/commerce_email"]
+	path = sites/all/modules/commerce_email
+	url = git://git.drupal.org/project/commerce_email.git

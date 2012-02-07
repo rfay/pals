@@ -169,3 +169,12 @@
 [submodule "sites/all/modules/commerce_email"]
 	path = sites/all/modules/commerce_email
 	url = git://git.drupal.org/project/commerce_email.git
+[submodule "sites/all/modules/mailmime"]
+	path = sites/all/modules/mailmime
+	url = git://git.drupal.org/project/mailmime.git
+[submodule "sites/all/modules/insert"]
+	path = sites/all/modules/insert
+	url = git://git.drupal.org/project/insert.git
+[submodule "sites/all/modules/include"]
+	path = sites/all/modules/include
+	url = git://git.drupal.org/project/include.git

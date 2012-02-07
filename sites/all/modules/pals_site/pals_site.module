@@ -17,18 +17,27 @@ function pals_site_form_show_registration_node_form_alter(&$form, &$form_state) 
 }
 
 function pals_site_form_commerce_checkout_form_checkout_alter(&$form, &$form_state) {
-  $form['account']['login']['mail']['#description'] = t('If you do not have an email account, please enter "nancy+noemail@nblewis.com"');
-}
-/**
- * Implements hook_form_alter().
- */
-function pals_site_form_alter(&$form, &$form_state, $form_id) {
-  switch($form_id) {
+  $form['account']['login']['mail']['#description'] = t('If you do not have an email account, please enter %email', array('%email' => variable_get('pals_site_default_email', 'janeellenjohnson@yahoo.com')));
+  $form['account']['login']['mail_confirm'] = array(
+    '#type' => 'textfield',
+    '#required' => TRUE,
+    '#title' => t('Please confirm your email address'),
+    '#element_validate' => array('pals_site_commerce_checkout_email_validate'),
+    '#default_value' => $form['account']['login']['mail']['#default_value'],
+  );
 
+  $form['customer_profile_billing']['commerce_customer_address']['und'][0]['country']['#access'] = FALSE;
+}
+
+/**
+ * Validate that the two mail addresses match.
+ */
+function pals_site_commerce_checkout_email_validate($element, &$form_state, $form) {
+  $login_state = $form_state['values']['account']['login'];
+  if ($login_state['mail'] != $login_state['mail_confirm']) {
+    form_error($element, t('Please check your confirmation email address.'));
   }
 }
-
-
 
 /**
 * Implements hook_token_info_alter().

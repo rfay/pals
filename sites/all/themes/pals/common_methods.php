@@ -483,8 +483,8 @@ function art_vmenu_output($subject, $content) {
 
   $output =	art_menu_worker($content, true, 'art-vmenu');
   $bvm = "<div class=\"art-box art-vmenublock\">\r\n    <div class=\"art-box-body art-vmenublock-body\">\r\n";
-  $bvmt = "<div class=\"art-bar art-vmenublockheader\">\r\n    <h3 class=\"t subject\">";
-  $evmt = "</h3>\r\n</div>\r\n";
+  $bvmt = "";
+  $evmt = "";
   $bvmc = "<div class=\"art-box art-vmenublockcontent\">\r\n    <div class=\"art-box-body art-vmenublockcontent-body\">\r\n<div class=\"content\">\r\n";
   $evmc = "\r\n</div>\r\n		<div class=\"cleared\"></div>\r\n    </div>\r\n</div>\r\n";
   $evm = "\r\n		<div class=\"cleared\"></div>\r\n    </div>\r\n</div>\r\n";

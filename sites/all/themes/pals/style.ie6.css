@@ -2,6 +2,10 @@
 
 /* Created by Artisteer v3.1.0.48375 */
 
+#art-main {
+   zoom:expression(runtimeStyle.zoom=1,calcWidth=function(o){var p='90%';var min=700;var max=1728;var b=document.body;if(o.w!=b.clientWidth){o.w=b.clientWidth;var w=b.clientWidth/100*parseInt(p);return w < min ? min+'px': w > max ? max+'px':p;}});
+   width:auto;
+}
 .cleared {
    width:1px;
 }
@@ -17,24 +21,31 @@
 /* End Bar */
 /* end Page */
 
+/* begin Box, Sheet */
+.art-sheet {
+   background:#FFFFFF;
+   width:expression(calcWidth(this));
+}
+
+/* end Box, Sheet */
+
 /* begin Header */
 .art-header {
-   zoom:expression(runtimeStyle.zoom=1,insertBefore(document.createElement('div'),firstChild).className='art-header-png');
+   zoom:expression(runtimeStyle.zoom=1,insertBefore(document.createElement('div'),firstChild).className='art-header-jpeg');
    z-index: 1;
 }
 
-.art-header-png
+.art-header-jpeg
 {
    position: absolute;
-   z-index:-2;
+   z-index:-1;
    top: 0;
    width:100%;
    height: 150px;
-   background-image: url('images/header.png');
+   background-image: url('images/header.jpg');
    background-repeat: no-repeat;
-   background-position:top center;
+   background-position: center center;
 }
-
 /* end Header */
 
 /* begin TextBlock */
@@ -89,7 +100,7 @@ ul.art-hmenu, ul.art-hmenu ul, ul.art-hmenu li, ul.art-hmenu a {
 .art-hmenu a.active 
 {
    color: #000000;
-   background-color:#B0C3C3;
+   background-color:#B0C2C2;
 }
 
 .art-hmenu a:hover, .art-hmenuhoverA,  .art-hmenuhover a 
@@ -137,12 +148,6 @@ span.art-hmenu-separator
 
 /* end MenuSubItem */
 
-/* begin Box, Sheet */
-.art-sheet {
-   background:#FFFFFF;
-}
-/* end Box, Sheet */
-
 /* begin Layout */
 .art-content-layout, .art-content-layout-row, .art-layout-cell 
 {
@@ -157,33 +162,15 @@ span.art-hmenu-separator
 }
 /* end Layout */
 
-/* begin Button */
-.art-button-wrapper{
-   zoom: 1;
-}
-.art-button-wrapper .art-button-l, .art-button-wrapper .art-button-r {
-   display: none;
-}
-.art-button-wrapper .art-button {
-   float: left;
-}
-/* end Button */
-
 /* begin Box, Block, VMenuBlock */
 .art-vmenublock {
    background:#FFFFFF;
 }
 /* end Box, Block, VMenuBlock */
 
-/* begin BlockHeader, VMenuBlockHeader */
-.art-vmenublockheader {
-   background:#A4A871;
-}
-/* end BlockHeader, VMenuBlockHeader */
-
 /* begin Box, Box, VMenuBlockContent */
 .art-vmenublockcontent {
-   background:#F6F7F1;
+   background:#FFFFFF;
 }
 
 /* end Box, Box, VMenuBlockContent */
@@ -207,7 +194,7 @@ ul.art-vmenu ul{
 ul.art-vmenu a 
 {
    color: #000000;
-   background-color:#F7F8F3;
+   background-color:#FFFFFF;
    padding: 0 10px 0 10px;
    height: 32px;
    line-height: 32px;
@@ -215,14 +202,14 @@ ul.art-vmenu a
 
 .art-vmenu a.active 
 {
-   color: #6A5922;
-   background-color:#EFEBD8;
+   color: #947D30;
+   background-color:#FFFFFF;
 }
 
 ul.art-vmenu a:hover
 {
-   color: #555735;
-   background-color:#EFEBD8;
+   color: #363822;
+   background-color:#D3BE78;
 }
 
 /* end VMenuItem */
@@ -233,14 +220,14 @@ ul.art-vmenu ul a {
 }
 ul.art-vmenu li li {
    padding-top:expression(this.previousSibling==null?'0':'0');
-   margin-top:expression(this.previousSibling==null?'0':'0');
+   margin-top:expression(this.previousSibling==null?'0':'4px');
 }
  
 ul.art-vmenu ul ul {
-   margin-top:0;
+   margin-top:4px;
 }
 ul.art-vmenu ul a.active {
-   color: #443916 !important;
+   color: #947D30 !important;
 }
 ul.art-vmenu ul a:hover {
    color: #50441A !important;
@@ -269,6 +256,18 @@ ul.art-vmenu ul a:hover {
 
 /* end Box, BlockContent */
 
+/* begin Button */
+.art-button-wrapper{
+   zoom: 1;
+}
+.art-button-wrapper .art-button-l, .art-button-wrapper .art-button-r {
+   display: none;
+}
+.art-button-wrapper .art-button {
+   float: left;
+}
+/* end Button */
+
 /* begin Box, Post */
 .art-post {
    background:#FFFFFF;
@@ -279,7 +278,7 @@ ul.art-vmenu ul a:hover {
 .art-postmetadataheader
 {
    zoom:1;
-   background:#F2F2EA;
+   background:#F4F5EE;
 }
 /* end PostMetadata, PostMetadataHeader */
 
@@ -326,7 +325,7 @@ ul.art-vmenu ul a:hover {
 
 .art-footer-text
 {
-   height: 33px;
+   height: 32px;
 }
 
 .art-rss-tag-icon
@@ -338,7 +337,7 @@ ul.art-vmenu ul a:hover {
 /* end Footer */
 
 /* begin LayoutCell, content */
-.art-sidebar1 {
+.art-sidebar2 {
    width: auto;
 }
 /* end LayoutCell, content */

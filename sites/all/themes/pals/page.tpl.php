@@ -16,29 +16,20 @@
 
 <div id="art-main">
     <div class="cleared reset-box"></div>
+<div class="art-box art-sheet">
+    <div class="art-box-body art-sheet-body">
 <div class="art-header">
-<div class="art-header-position">
-    <div class="art-header-wrapper">
-        <div class="cleared reset-box"></div>
-        <div class="art-header-inner">
 <div class="art-textblock"> </div>
 <div class="art-logo">
      <?php   if (!empty($site_name)) { echo '<h1 class="art-logo-name"><a href="'.check_url($front_page).'" title = "'.$site_name.'">'.$site_name.'</a></h1>'; } ?>
      <?php   if (!empty($site_slogan)) { echo '<h2 class="art-logo-text">'.$site_slogan.'</h2>'; } ?>
 </div>
 
-        </div>
-    </div>
-</div>
-
-
 </div>
 <div class="cleared reset-box"></div>
 <?php if (!empty($navigation) || !empty($extra1) || !empty($extra2)): ?>
 <div class="art-bar art-nav">
 <div class="art-nav-outer">
-<div class="art-nav-wrapper">
-<div class="art-nav-inner">
     <?php if (!empty($extra1)) : ?>
     <div class="art-hmenu-extra1"><?php echo render($extra1); ?></div>
     <?php endif; ?>
@@ -50,18 +41,16 @@
     <?php endif; ?>
 </div>
 </div>
-</div>
-</div>
 <div class="cleared reset-box"></div>
 <?php endif;?>
-<div class="art-box art-sheet">
-    <div class="art-box-body art-sheet-body">
 <?php if (!empty($banner1)) { echo '<div id="banner1">'.render($banner1).'</div>'; } ?>
 <?php echo art_placeholders_output(render($top1), render($top2), render($top3)); ?>
 <div class="art-layout-wrapper">
     <div class="art-content-layout">
         <div class="art-content-layout-row">
-<?php echo '<div class="art-layout-cell art-content">'; ?>
+<?php if (!empty($art_sidebar_left) || !empty($vnavigation_left))
+echo art_get_sidebar($art_sidebar_left, $vnavigation_left, 'art-sidebar1'); ?>
+<div class="<?php echo art_get_content_cell_style($art_sidebar_left, $vnavigation_left, $art_sidebar_right, $vnavigation_right, $content); ?>">
 <?php if (!empty($banner2)) { echo '<div id="banner2">'.render($banner2).'</div>'; } ?>
 <?php if ((!empty($user1)) && (!empty($user2))) : ?>
 <table class="position" cellpadding="0" cellspacing="0" border="0">
@@ -186,7 +175,7 @@
 <?php if (!empty($banner5)) { echo '<div id="banner5">'.render($banner5).'</div>'; } ?>
 </div>
 <?php if (!empty($art_sidebar_right) || !empty($vnavigation_right))
-echo art_get_sidebar($art_sidebar_right, $vnavigation_right, 'art-sidebar1'); ?>
+echo art_get_sidebar($art_sidebar_right, $vnavigation_right, 'art-sidebar2'); ?>
 
         </div>
     </div>

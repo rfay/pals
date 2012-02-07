@@ -5,6 +5,10 @@ screenshot = screenshot.png
 version = 1.0
 core = 7.x
 engine = phptemplate
+regions[sidebar_left] =  Left sidebar
+
+regions[vnavigation_left] = Left vertical menu
+
 regions[sidebar_right] = Right sidebar
 
 regions[vnavigation_right] = Right vertical menu

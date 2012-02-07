@@ -130,6 +130,53 @@ jQuery(function () {
     jQuery(window).trigger('resize');
 });/* end Layout */
 
+/* begin VMenu */
+jQuery(function() {
+    if (!jQuery('html').hasClass('ie7')) return;
+    jQuery('ul.art-vmenu li:not(:first-child),ul.art-vmenu li li li:first-child,ul.art-vmenu>li>ul').each(function () { jQuery(this).append('<div class="art-vmenu-separator"> </div><div class="art-vmenu-separator-bg"> </div>'); });
+});
+jQuery(function() {
+    setOpenSubmenuWithNoReload({vMenuClass: "art-vmenu", activeClass: "active", hoveredClass: "hovered"});
+});
+
+function setOpenSubmenuWithNoReload(vMenuInfo) {
+    jQuery("ul." + vMenuInfo.vMenuClass + " li").each(function () {
+        var item = jQuery(this);
+        item.children("a").bind("click", function(e) {
+            var link = jQuery(this);
+            var simple = link.siblings("ul").length == 0;
+            link.parent().siblings().children("ul." + vMenuInfo.activeClass).slideUp(function() {
+                jQuery(this).find("li, a, ul").removeClass(vMenuInfo.activeClass);
+                jQuery(this).removeClass(vMenuInfo.activeClass).siblings("a").removeClass(vMenuInfo.activeClass);
+                jQuery(this).css("display", "");
+            });
+            link.parent().siblings().children("a." + vMenuInfo.activeClass).removeClass(vMenuInfo.activeClass);
+            link.parent().siblings().removeClass(vMenuInfo.activeClass);
+            if (simple && !link.hasClass(vMenuInfo.activeClass)) {
+                link.addClass(vMenuInfo.activeClass).parent().addClass(vMenuInfo.activeClass);
+            }
+            if (!simple) {
+                if (link.hasClass(vMenuInfo.activeClass)) {
+                    link.siblings("ul").slideUp("fast", function() {
+                        jQuery(this).removeClass(vMenuInfo.activeClass).siblings("a").removeClass(vMenuInfo.activeClass).parent().removeClass(vMenuInfo.activeClass);
+                        jQuery(this).css("display", "");
+                    });
+                } else {
+                    link.siblings("ul").slideDown("fast", function() {
+                        jQuery(this).addClass(vMenuInfo.activeClass).siblings("a").addClass(vMenuInfo.activeClass).parent().addClass(vMenuInfo.activeClass);
+                        jQuery(this).css("display", "");
+                    });
+                }
+                
+                e.preventDefault();
+                return false;
+            }
+        });
+    });
+}
+
+/* end VMenu */
+
 /* begin Button */
 function artButtonSetup(className) {
     jQuery.each(jQuery("a." + className + ", button." + className + ", input." + className), function (i, val) {
@@ -149,15 +196,6 @@ function artButtonSetup(className) {
 jQuery(function() { artButtonSetup("art-button"); });
 
 /* end Button */
-
-/* begin VMenu */
-jQuery(function() {
-    if (!jQuery('html').hasClass('ie7')) return;
-    jQuery('ul.art-vmenu li:not(:first-child),ul.art-vmenu li li li:first-child,ul.art-vmenu>li>ul').each(function () { jQuery(this).append('<div class="art-vmenu-separator"> </div><div class="art-vmenu-separator-bg"> </div>'); });
-});
-
-
-/* end VMenu */
 
 
 

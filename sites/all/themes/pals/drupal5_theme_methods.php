@@ -4,7 +4,11 @@
 
 function pals_regions() {
   return array(
-'sidebar_right' => t('Right sidebar'),
+'sidebar_left' => t('Left sidebar'),
+  
+  'vnavigation_left' => ('Left vertical menu'),
+  
+  'sidebar_right' => t('Right sidebar'),
   
   'vnavigation_right' => t('Right vertical menu'),
   

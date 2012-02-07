@@ -35,64 +35,62 @@ function pals_site_form_alter(&$form, &$form_state, $form_id) {
 *
 * Provide a "pals registration" token that is the rendered registration node.
 */
-function pals_site_token_info_alter(&$data) {
-  $data['tokens']['commerce-order']['pals-registration'] = array(
-    'name' => t('PALS Registration'),
-    'description' => t('Fully rendered node with PALS registration'),
-  );
-}
+// function pals_site_token_info_alter(&$data) {
+//   $data['tokens']['commerce-order']['pals-registration-url'] = array(
+//     'name' => t('PALS Registration'),
+//     'description' => t('Fully rendered node with PALS registration'),
+//   );
+// }
 
 /**
  * Implements hook_tokens().
  *
  * Implement the pals-registration token.
  */
-function pals_site_tokens($type, $tokens, array $data = array(), array $options = array()) {
-  $url_options = array('absolute' => TRUE);
+// function pals_site_tokens($type, $tokens, array $data = array(), array $options = array()) {
+//   $url_options = array('absolute' => TRUE);
 
-  if (isset($options['language'])) {
-    $url_options['language'] = $options['language'];
-    $language_code = $options['language']->language;
-  }
-  else {
-    $language_code = NULL;
-  }
+//   if (isset($options['language'])) {
+//     $url_options['language'] = $options['language'];
+//     $language_code = $options['language']->language;
+//   }
+//   else {
+//     $language_code = NULL;
+//   }
 
-  $sanitize = !empty($options['sanitize']);
+//   $sanitize = !empty($options['sanitize']);
 
-  $replacements = array();
+//   $replacements = array();
 
-  if ($type == 'commerce-order' && !empty($data['commerce-order'])) {
-    $order = $data['commerce-order'];
+//   if ($type == 'commerce-order' && !empty($data['commerce-order'])) {
+//     $order = $data['commerce-order'];
 
-    foreach ($tokens as $name => $original) {
-      switch ($name) {
-        case 'pals-registration':
-          $reg_markup = pals_site_get_rendered_node($order);
-          $replacements[$original] = $reg_markup;
-          break;
-      }
-    }
-  }
-  return $replacements;
-}
+//     foreach ($tokens as $name => $original) {
+//       switch ($name) {
+//         case 'pals-registration-url':
+//           $reg_node = pals_site_get_reg_node($order);
+//           $replacements[$original] = url('node/' . $reg_node->nid, array('absolute' => TRUE));
+//           break;
+//       }
+//     }
+//   }
+//   return $replacements;
+// }
 
 /**
  * Get the rendered pals registration node.
  */
-function pals_site_get_rendered_node($order) {
+// function pals_site_get_reg_node($order) {
 
-  $wrapper = entity_metadata_wrapper('commerce_order', $order);
+//   $wrapper = entity_metadata_wrapper('commerce_order', $order);
 
-  $rows = array();
-  foreach ($wrapper->commerce_line_items as $delta => $line_item_wrapper) {
-    if (!empty($line_item_wrapper->field_artshow_reg_info)) {
-      $reg_node = $line_item_wrapper->field_artshow_reg_info->value();
-      $content = node_view($reg_node);
-      $html = theme('node', array('elements' => $content));
-      return $html;
-    }
-  }
+//   $rows = array();
+//   foreach ($wrapper->commerce_line_items as $delta => $line_item_wrapper) {
+//     if (!empty($line_item_wrapper->field_artshow_reg_info)) {
+//       $reg_node = $line_item_wrapper->field_artshow_reg_info->value();
+//       return $reg_node;
+//     }
+//   }
 
 
-}
+// }

@@ -181,3 +181,6 @@
 [submodule "sites/all/modules/sweaver"]
 	path = sites/all/modules/sweaver
 	url = git://git.drupal.org/project/sweaver.git
+[submodule "sites/all/modules/devel"]
+	path = sites/all/modules/devel
+	url = git://git.drupal.org/project/devel.git

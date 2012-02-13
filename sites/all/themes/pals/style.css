@@ -42,7 +42,7 @@ ul.art-vmenu a
 .art-postcontent a:hover,
 .art-postcontent a.hovered
 {
-   font-family: "MS Reference Specialty",Arial, Helvetica, Sans-Serif;
+   font-family: Tahoma, Arial, Helvetica, Sans-Serif;
 }
 
 .art-postcontent p
@@ -71,14 +71,12 @@ ul.art-vmenu a
 
 .art-postcontent a
 {
-   font-family: Tahoma, Arial, Helvetica, Sans-Serif;
    text-decoration: underline;
    color: #0174BC;
 }
 
 .art-postcontent a:link
 {
-   font-family: Tahoma, Arial, Helvetica, Sans-Serif;
    text-decoration: underline;
    color: #0174BC;
 }
@@ -1696,7 +1694,6 @@ span.art-postediticon:after
 
 .art-postcontent li
 {
-   font-family: Tahoma, Arial, Helvetica, Sans-Serif;
    font-size: 16px;
    color: #8B8F57;
    margin: 3px 0 0 -15px;
@@ -1755,7 +1752,6 @@ blockquote a:visited, .art-postcontent blockquote a:visited, .art-blockcontent b
 blockquote a:hover, .art-postcontent blockquote a:hover, .art-blockcontent blockquote a:hover, .art-footer blockquote a:hover
 {
    color: #18180F;
-   font-family: Tahoma, Arial, Helvetica, Sans-Serif;
    font-style: italic;
    font-weight: normal;
    text-align: left;
@@ -2015,14 +2011,14 @@ div.art-footer img
 /* begin LayoutCell, sidebar1 */
 .art-content-layout .art-sidebar1
 {
-   width: 200px;
+   width: 225px;
 }
 /* end LayoutCell, sidebar1 */
 
 /* begin LayoutCell, sidebar2 */
 .art-content-layout .art-sidebar2
 {
-   width: 200px;
+   width: 225px;
 }
 /* end LayoutCell, sidebar2 */
 

@@ -184,3 +184,6 @@
 [submodule "sites/all/modules/devel"]
 	path = sites/all/modules/devel
 	url = git://git.drupal.org/project/devel.git
+[submodule "sites/all/modules/backup_migrate"]
+	path = sites/all/modules/backup_migrate
+	url = git://git.drupal.org/project/backup_migrate.git

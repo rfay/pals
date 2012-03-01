@@ -1,105 +1,116 @@
 <?php
 
 
-/**
- * @file
- * Site helpers for palisadeartlovers.org
- *
- */
+  /**
+   * @file
+   * Site helpers for palisadeartlovers.org
+   *
+   */
 
-/**
- * Implements hook_form_FORMID_alter().
- *
- * Alter the show_registration_node_form to hide the country field.
- */
-function pals_site_form_show_registration_node_form_alter(&$form, &$form_state) {
-  $form['field_entrant_address']['und'][0]['country']['#access'] = FALSE;
-}
-
-function pals_site_form_commerce_checkout_form_checkout_alter(&$form, &$form_state) {
-  $form['account']['login']['mail']['#description'] = t('If you do not have an email account, please enter %email', array('%email' => variable_get('pals_site_default_email', 'janeellenjohnson@yahoo.com')));
-  $form['account']['login']['mail_confirm'] = array(
-    '#type' => 'textfield',
-    '#required' => TRUE,
-    '#title' => t('Please confirm your email address'),
-    '#element_validate' => array('pals_site_commerce_checkout_email_validate'),
-    '#default_value' => $form['account']['login']['mail']['#default_value'],
-  );
-
-  $form['customer_profile_billing']['commerce_customer_address']['und'][0]['country']['#access'] = FALSE;
-}
-
-/**
- * Validate that the two mail addresses match.
- */
-function pals_site_commerce_checkout_email_validate($element, &$form_state, $form) {
-  $login_state = $form_state['values']['account']['login'];
-  if ($login_state['mail'] != $login_state['mail_confirm']) {
-    form_error($element, t('Please check your confirmation email address.'));
+  /**
+   * Implements hook_form_FORMID_alter().
+   *
+   * Alter the show_registration_node_form to hide the country field.
+   */
+  function pals_site_form_show_registration_node_form_alter(&$form, &$form_state)
+  {
+    $form['field_entrant_address']['und'][0]['country']['#access'] = FALSE;
   }
-}
+
+  function pals_site_form_commerce_checkout_form_checkout_alter(&$form, &$form_state)
+  {
+    $form['account']['login']['mail']['#description'] = t('If you do not have an email account, please enter %email', array('%email' => variable_get('pals_site_default_email', 'janeellenjohnson@yahoo.com')));
+
+    $form['account']['login']['mail_confirm'] = array(
+      '#type' => 'textfield',
+      '#required' => TRUE,
+      '#title' => t('Please confirm your email address'),
+      '#element_validate' => array('pals_site_commerce_checkout_email_validate'),
+      '#default_value' => $form['account']['login']['mail']['#default_value'],
+    );
+
+    $form['customer_profile_billing']['commerce_customer_address']['und'][0]['country']['#access'] = FALSE;
+  }
+
+  /**
+   * Validate that the two mail addresses match.
+   */
+  function pals_site_commerce_checkout_email_validate($element, &$form_state, $form)
+  {
+    $login_state = $form_state['values']['account']['login'];
+    if ($login_state['mail'] != $login_state['mail_confirm']) {
+      form_error($element, t('Please check your confirmation email address.'));
+    }
+  }
+
+
+  /**
+   * Implements hook_field_formatter_info().
+   */
+  function pals_site_field_formatter_info_alter(&$info)
+  {
+    $info['field_collection_field_simple'] = array(
+      'label' => t('Simple text representation of field'),
+      'field types' => array('field_collection'),
+      'settings' => array(),
+      'module' => 'pals_site',
+    );
+
+  }
+
+
+  /**
+   * Implements hook_field_formatter_view().
+   *
+   * Attempts to provide a plain text view of the field_collection for use in a CSV.
+   * Does nothing but provide a #suffix for each of the field children.
+   */
+  function pals_site_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display)
+  {
+    $element = array();
+    $settings = $display['settings'];
+
+    switch ($display['type']) {
+
+      case 'field_collection_field_simple':
+
+        $view_mode = !empty($display['settings']['view_mode']) ? $display['settings']['view_mode'] : 'full';
+        foreach ($items as $delta => $item) {
+          if ($field_collection = field_collection_field_get_entity($item)) {
+            $element[$delta]['entity'] = $field_collection->view($view_mode);
+            foreach (element_children($element[$delta]['entity']['field_collection_item']) as $subitem) {
+              foreach (element_children($element[$delta]['entity']['field_collection_item'][$subitem]) as $field) {
+                $element[$delta]['entity']['field_collection_item'][$subitem][$field]['#pre_render'][] = 'pals_site_pre_render_field';
+
+              }
+            }
+          }
+        }
+        break;
+
+    }
+
+    return $element;
+  }
 
 /**
-* Implements hook_token_info_alter().
-*
-* Provide a "pals registration" token that is the rendered registration node.
-*/
-// function pals_site_token_info_alter(&$data) {
-//   $data['tokens']['commerce-order']['pals-registration-url'] = array(
-//     'name' => t('PALS Registration'),
-//     'description' => t('Fully rendered node with PALS registration'),
-//   );
-// }
-
-/**
- * Implements hook_tokens().
+ * Pre_render callback intended to change subfields so they can be output as csv
  *
- * Implement the pals-registration token.
+ * @param $element
  */
-// function pals_site_tokens($type, $tokens, array $data = array(), array $options = array()) {
-//   $url_options = array('absolute' => TRUE);
+function pals_site_pre_render_field($element) {
+  if ($element['#title'] == 'Artwork Title') {
+    $element['#title'] = 'Title';
+  }
 
-//   if (isset($options['language'])) {
-//     $url_options['language'] = $options['language'];
-//     $language_code = $options['language']->language;
-//   }
-//   else {
-//     $language_code = NULL;
-//   }
+  if ($element['#title'] != 'Price $') {
+    $element['#prefix'] = $element['#title'] . ': ';
+  }
+  $element['#suffix'] = ', ';
 
-//   $sanitize = !empty($options['sanitize']);
-
-//   $replacements = array();
-
-//   if ($type == 'commerce-order' && !empty($data['commerce-order'])) {
-//     $order = $data['commerce-order'];
-
-//     foreach ($tokens as $name => $original) {
-//       switch ($name) {
-//         case 'pals-registration-url':
-//           $reg_node = pals_site_get_reg_node($order);
-//           $replacements[$original] = url('node/' . $reg_node->nid, array('absolute' => TRUE));
-//           break;
-//       }
-//     }
-//   }
-//   return $replacements;
-// }
-
-/**
- * Get the rendered pals registration node.
- */
-// function pals_site_get_reg_node($order) {
-
-//   $wrapper = entity_metadata_wrapper('commerce_order', $order);
-
-//   $rows = array();
-//   foreach ($wrapper->commerce_line_items as $delta => $line_item_wrapper) {
-//     if (!empty($line_item_wrapper->field_artshow_reg_info)) {
-//       $reg_node = $line_item_wrapper->field_artshow_reg_info->value();
-//       return $reg_node;
-//     }
-//   }
-
-
-// }
+  // No output at all for images.
+  if ($element['#field_type'] == 'image') {
+    $element = array();
+  }
+  return $element;
+}

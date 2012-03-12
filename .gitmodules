@@ -187,3 +187,6 @@
 [submodule "sites/all/modules/backup_migrate"]
 	path = sites/all/modules/backup_migrate
 	url = git://git.drupal.org/project/backup_migrate.git
+[submodule "sites/all/modules/environment_indicator"]
+	path = sites/all/modules/environment_indicator
+	url = git://git.drupal.org/project/environment_indicator.git

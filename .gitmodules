@@ -190,3 +190,6 @@
 [submodule "sites/all/modules/environment_indicator"]
 	path = sites/all/modules/environment_indicator
 	url = git://git.drupal.org/project/environment_indicator.git
+[submodule "sites/all/modules/link"]
+	path = sites/all/modules/link
+	url = git://git.drupal.org/project/link.git

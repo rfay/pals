@@ -193,3 +193,6 @@
 [submodule "sites/all/modules/link"]
 	path = sites/all/modules/link
 	url = git://git.drupal.org/project/link.git
+[submodule "sites/all/modules/varnish"]
+	path = sites/all/modules/varnish
+	url = git://git.drupal.org/project/varnish.git

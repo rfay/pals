@@ -196,3 +196,9 @@
 [submodule "sites/all/modules/varnish"]
 	path = sites/all/modules/varnish
 	url = git://git.drupal.org/project/varnish.git
+[submodule "sites/all/modules/captcha"]
+	path = sites/all/modules/captcha
+	url = git://git.drupal.org/project/captcha.git
+[submodule "sites/all/modules/riddler"]
+	path = sites/all/modules/riddler
+	url = git://git.drupal.org/project/riddler.git

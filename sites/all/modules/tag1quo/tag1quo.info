@@ -1,0 +1,13 @@
+name = Tag1 Quo
+description = Reports all installed themes and modules to Tag1 Quo as part of a paid service.
+core = 7.x
+package = Tag1 Quo
+configure = admin/config/development/tag1quo
+files[] = tag1quo.admin.inc
+
+; Information added by Drupal.org packaging script on 2016-09-23
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "tag1quo"
+datestamp = "1474636441"
+

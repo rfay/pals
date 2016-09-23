@@ -1,0 +1,342 @@
+<?php
+
+/**
+ * @file
+ * Reports on installed Drupal modules and themes to Tag1 Quo, a paid
+ * service.
+ */
+
+/**
+ * Tag1 API version.
+ */
+define('TAG1_API_VERSION', '2.0');
+
+/**
+ * URL to check for updates.
+ */
+define('TAG1QUO_URL', 'https://quo.tag1consulting.com/' . TAG1_API_VERSION . '/entity/d6lts_site');
+
+/**
+ * Send heartbeat roughly once every day. (1 day minus ten minutes)
+ */
+define('TAG1QUO_HEARTBEAT_FREQUENCY', 85800);
+
+/**
+ * Error codes.
+ */
+define('TAG1QUO_ERROR_DISABLED', 1);
+define('TAG1QUO_ERROR_NO_TOKEN', 2);
+define('TAG1QUO_ERROR_NOT_UPDATED', 3);
+
+/**
+ * Implements hook_help().
+ */
+function tag1quo_help($path) {
+  switch ($path) {
+    case 'admin/help#tag1quo':
+      return '<p>' . t('Reports on your installed Drupal modules and themes to Tag1 Quo to help you manage updates.') . '</p>';
+  }
+}
+
+/**
+ * Implenentation of hook_permission().
+ */
+function tag1quo_permission() {
+  return array(
+    'administer tag1quo' => array(
+      'title' => t('Administer Tag1 Quo'),
+      'description' => t('Provides access for configuring and managing Tag1 Quo on this website.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function tag1quo_menu() {
+  $items = array();
+
+  $items['admin/config/development/tag1quo'] = array(
+    'title' => 'Tag1 Quo',
+    'description' => 'Configure your website to talk to the Tag1 Quo service.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('tag1quo_admin_settings'),
+    'access arguments' => array('administer tag1quo'),
+    'file' => 'tag1quo.admin.inc',
+  );
+  $items['admin/config/development/tag1quo/configuration'] = array(
+    'title' => 'Configuration',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('tag1quo_admin_settings'),
+    'access arguments' => array('administer tag1quo'),
+    'file' => 'tag1quo.admin.inc',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );
+  $items['admin/config/development/tag1quo/review'] = array(
+    'title' => 'Review',
+    'description' => 'Review the information this module is sending to Tag1 Quo.',
+    'page callback' => 'tag1quo_admin_review',
+    'access arguments' => array('administer tag1quo'),
+    'file' => 'tag1quo.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+  $items['admin/config/development/tag1quo/status'] = array(
+    'title' => 'Status',
+    'description' => 'Status of information being sent to Tag1 Quo.',
+    'page callback' => 'tag1quo_admin_status',
+    'access arguments' => array('administer tag1quo'),
+    'file' => 'tag1quo.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+  $items['admin/config/development/tag1quo/status/manual'] = array(
+    'title' => 'Manually send',
+    'description' => 'Manually send report to Tag1 Quo.',
+    'page callback' => 'tag1quo_admin_send_manually',
+    'access arguments' => array('administer tag1quo'),
+    'file' => 'tag1quo.admin.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+
+/**
+ * Implements hook_cron().
+ */
+function tag1quo_cron() {
+  $next_update = tag1quo_next_update();
+  if ($next_update <= 0) {
+    tag1quo_send_report();
+  }
+}
+
+/**
+ * Return an array of all tracked data.
+ */
+function tag1quo_get_status() {
+  global $base_url, $db_url;
+
+  $status = array();
+  $warning = '';
+
+  if (!variable_get('tag1quo_report', 1)) {
+    $warning = t('No information will be sent to Tag1 Quo until you enable reporting in the !configuration tab.', array('!configuration' => l(t('configuration'), 'admin/config/development/tag1quo')));
+    $status['error'] = TAG1QUO_ERROR_DISABLED;
+  }
+  if (variable_get('tag1quo_token', '') == '') {
+    if (!empty($warning)) {
+      $warning = t('No information will be sent to Tag1 Quo until you enable reporting and configure your token in the !configuration tab.', array('!configuration' => l(t('configuration'), 'admin/config/development/tag1quo')));
+    }
+    else {
+      $warning = t('No information will be sent to Tag1 Quo until you configure your token in the !configuration tab.', array('!configuration' => l(t('configuration'), 'admin/config/development/tag1quo')));
+      $status['error'] = TAG1QUO_ERROR_NO_TOKEN;
+    }
+  }
+
+  if (!empty($warning)) {
+    drupal_set_message($warning, 'warning');
+  }
+
+  $server_name = isset($_SERVER['SERVER_NAME']) ? check_plain($_SERVER['SERVER_NAME']) : '';
+  $server_addr = isset($_SERVER['SERVER_ADDR']) ? check_plain($_SERVER['SERVER_ADDR']) : '';
+  $php_self = isset($_SERVER['PHP_SELF']) ? check_plain($_SERVER['PHP_SELF']) : '';
+
+  // Pass along default theme information for optional dashboard display.
+  $default_theme = variable_get('theme_default', 'bartik');
+  $logo_path = theme_get_setting('logo_path', $default_theme);
+  $favicon_path = theme_get_setting('favicon_path', $default_theme);
+
+  // A hash of the db_url helps identify different deployment instances.
+  if (is_array($db_url)) {
+    if (isset($db_url['default'])) {
+      $url_string = $db_url['default'];
+    }
+    else {
+      $url_string = array_pop($db_url);
+    }
+  }
+  else {
+    $url_string = $db_url;
+  }
+  // No passwords are sent, just a hash.
+  $db_url_hash = hash('sha1', $url_string);
+
+  $status += array(
+    'type' => array(array('target_id' => 'd6lts_site')),
+    'field_tag1_api_version' => array(array('value' => TAG1_API_VERSION)),
+    'title' => array(array('value' => variable_get('site_name', 'Drupal'))),
+    'field_site_identifier' => array(array('value' => tag1quo_get_site_identifier())),
+    'field_base_url' => array(array('value' => $base_url)),
+    'field_server_name' => array(array('value' => $server_name)),
+    'field_server_address' => array(array('value' => $server_addr)),
+    'field_php_self' => array(array('value' => $php_self)),
+    'field_php_version' => array(array('value' => phpversion())),
+    'field_logo_path' => array(array('value' => $logo_path)),
+    'field_favicon_path' => array(array('value' => $favicon_path)),
+    'field_db_url_hash' => array(array('value' => $db_url_hash)),
+    'field_last_update' => array(array('value' => REQUEST_TIME)),
+    'field_enable_timestamp' => array(array('value' => tag1quo_get_enable_timestamp())),
+  );
+  // We send the entire system table to make it possible to properly match
+  // all modules and themes with the proper upstream Drupal projects.
+  $result = db_query('SELECT * FROM {system}');
+  while ($update = $result->fetchAssoc()) {
+    // Include all comments from the info file, if any.
+    $update['info_comments'] = tag1quo_load_info_comments($update['type'], $update['name']);
+    $field_json_data[] = $update;
+  }
+  $status['field_json_data'] = array(array('value' => $field_json_data));
+  return $status;
+}
+
+/**
+ * Return a unique site identifier.
+ */
+function tag1quo_get_site_identifier() {
+  $tag1quo_siteid = variable_get('tag1quo_siteid', NULL);
+
+  if (is_null($tag1quo_siteid)) {
+    $tag1quo_siteid = hash('sha256', mt_rand() . tag1quo_get_enable_timestamp());
+    variable_set('tag1quo_siteid', $tag1quo_siteid);
+  }
+
+  return $tag1quo_siteid;
+}
+
+/**
+ * Return a UNIX timestamp of when this module was enabled.
+ */
+function tag1quo_get_enable_timestamp() {
+  $tag1quo_enable_timestamp = variable_get('tag1quo_enable_timestamp', NULL);
+
+  if (is_null($tag1quo_enable_timestamp)) {
+    $tag1quo_enable_timestamp = REQUEST_TIME;
+    variable_set('tag1quo_enable_timestamp', $tag1quo_enable_timestamp);
+  }
+
+  return $tag1quo_enable_timestamp;
+}
+
+/**
+ * Calculate the next time an update will be sent to Tag1 Quo.
+ */
+function tag1quo_next_update() {
+  $last_update = variable_get('tag1quo_last_update', 0);
+  if ($last_update == 0) {
+    // No updates reported yet, send first heartbeat.
+    return 0;
+  }
+  $time_since_last_update = REQUEST_TIME - $last_update;
+  return TAG1QUO_HEARTBEAT_FREQUENCY - $time_since_last_update;
+}
+
+/**
+ * Return an array of all comments in an extension info file.
+ */
+function tag1quo_load_info_comments($type, $name) {
+  $comments = array();
+  $filename = drupal_get_path($type, $name) . "/$name.info";
+  if (file_exists($filename)) {
+    // Load the info file.
+    $data = file_get_contents($filename);
+    // Extract only the comments.
+    if (preg_match_all('@[^\s]*;[^\r\n]*$@mx', $data, $matches, PREG_SET_ORDER)) {
+      foreach ($matches as $match) {
+        $comments[] = $match[0];
+      }
+    }
+  }
+  return $comments;
+}
+
+/**
+ * Send a status report to Tag1 Quo about installed modules.
+ *
+ * @param $tag1quo_token
+ *   Optional token to try the request with. The Drupal variable will be used
+ *   if not supplied here.
+ * @return \stdClass
+ *   Full report data.
+ */
+function tag1quo_send_report($tag1quo_token = NULL) {
+  if (empty($tag1quo_token)) {
+    $tag1quo_token = variable_get('tag1quo_token', NULL);
+  }
+  $result = new stdClass();
+
+  // Silently abort sending report if data collection is disabled.
+  if (!variable_get('tag1quo_report', 1)) {
+    // Send no information to Tag1 if reporting is disabled.
+    $result->error = TAG1QUO_ERROR_DISABLED;
+    return $result;
+  }
+  // Abort sending report if token is not configured.
+  else if (empty($tag1quo_token)) {
+    watchdog('tag1quo', t('Token is required, aborted sending Tag1 Quo update.'));
+    $result->error = TAG1QUO_ERROR_NO_TOKEN;
+    return $result;
+  }
+
+  if (lock_acquire('tag1quo_send_report')) {
+    $url = variable_get('tag1quo_url', TAG1QUO_URL);
+    $status = tag1quo_get_status();
+    // Encode json_data
+    $status['field_json_data'] = array(array('value' => drupal_json_encode($status['field_json_data'][0]['value'])));
+
+    $headers = array(
+      'Content-Type' => 'application/json',
+      'Drupal-Auth-Token' => $tag1quo_token,
+    );
+    $result = drupal_http_request($url, array('headers' => $headers, 'method' => 'POST', 'data' => drupal_json_encode($status)));
+
+    if (isset($result->code) && (($result->code >= 200 && $result->code < 300) || $result->code == 301 || $result->code == 302)) {
+      $result->success = TRUE;
+      watchdog('tag1quo', t('Successfully sent data to %url', array('%url' => $url)), array(), WATCHDOG_INFO);
+    }
+    else {
+      $result->success = FALSE;
+      watchdog('tag1quo', t('Failed to send data to %url', array('%url' => $url)), array(), WATCHDOG_INFO);
+    }
+
+    if ($result->success == FALSE || variable_get('tag1quo_debug', FALSE)) {
+      if (!isset($result->code) || $result->code == 0) {
+        // We're making an assumption here, but this has been the issue every
+        // time we've run into this so far.
+        watchdog('tag1quo', 'fsockopen(): Failed to enable crypto in drupal_http_request(). Please verify that PHP was built with OpenSSL support, is properly configured, and isn\'t blocked by a firewall.', WATCHDOG_ERROR);
+      }
+      else {
+        watchdog('tag1quo', 'HTTP Response Code %code: %message', array('%code' => isset($result->code) ? $result->code : 0, '%message' => empty($result->error) ? $result->status_message : $result->error), $result->success ? WATCHDOG_NOTICE : WATCHDOG_ERROR);
+      }
+      if (isset($result->status_message)) {
+        watchdog('tag1quo', 'Message: %message', array('%message' => $result->status_message));
+      }
+      if (isset($result->data)) {
+        watchdog('tag1quo', 'Data: %data', array('%data' => $result->data));
+      }
+      if (isset($result->request)) {
+        watchdog('tag1quo', 'Request: %request', array('%request' => $result->request), WATCHDOG_DEBUG);
+      }
+      if (is_array($result->headers)) {
+        $headers = array();
+        foreach ($result->headers as $header => $value) {
+          $headers[] = "$header: $value";
+        }
+        watchdog('tag1quo', 'Response headers: %headers', array('%headers' => implode(' | ', $headers)), WATCHDOG_DEBUG);
+      }
+    }
+
+    if ($result->success) {
+      // We've reported all changes.
+      variable_set('tag1quo_last_update', REQUEST_TIME);
+    }
+    else {
+      watchdog('tag1quo', t('Failed to send update to Tag1 Quo.'));
+    }
+    if (function_exists('lock_release')) {
+      lock_release('tag1quo_send_report');
+    }
+  }
+
+  return $result;
+}

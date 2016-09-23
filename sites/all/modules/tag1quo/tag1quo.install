@@ -1,0 +1,77 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the tag1quo module.
+ *
+ */
+
+
+function _tag1quo_varlist() {
+  // Return unprefixed list of variables
+  return array(
+    'debug',
+    'enable_timestamp',
+    'installed',
+    'last_update',
+    'report',
+    'siteid',
+    'token',
+    'url',
+    'update', // no longer used
+  );
+}
+/**
+ * Implements hook_uninstall().
+ */
+function tag1quo_uninstall() {
+  // Clear any variables that might be in use
+  $variables = _tag1quo_varlist();
+
+  foreach ($variables as $variable) {
+    variable_del("tag1quo_" . $variable);
+  }
+}
+
+/**
+ * Implements hook_install().
+ */
+function tag1quo_install() {
+  $variables = _tag1quo_varlist();
+
+  // Copy all existing variables from former tag1update module
+  foreach ($variables as $variable) {
+    $quo_var = variable_get('tag1quo_' . $variable, NULL);
+    $old_var = variable_get('tag1update_' . $variable, NULL);
+    if (empty($quo_var) && !empty($old_var)) {
+      variable_set('tag1quo_' . $variable, $old_var);
+    }
+  }
+
+  // Make sure any roles already granted 'administer tag1update' get
+  // 'administer tag1quo'.
+  $roles = user_roles(FALSE, 'administer tag1update');
+  foreach (array_keys($roles) as $rid) {
+    user_role_grant_permissions($rid, array('administer tag1quo'));
+  }
+
+  // Disable the old module
+  if (module_exists('tag1update')) {
+    module_disable(array('tag1update'));
+    drupal_uninstall_modules(array('tag1update'));
+  }
+
+  // Handle obsolete chores previously in tag1update_update_0602()
+  $ret = array();
+  if (db_table_exists('tag1update')) {
+    db_drop_table('tag1update');
+  }
+
+  // Be sure we're talking to the new v2 URL, in case this is replacing a
+  // tag1update module which had not been previously updated.
+  variable_del('tag1quo_url');
+  watchdog('tag1quo', 'tag1quo_url variable was deleted, which may affect development environments');
+
+  // tag1update_siteid was not deleted in tag1update.install.
+  variable_del('tag1update_siteid');
+
+}
